@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Skema extends Model
 {
-    protected $fillable = ['kode_skema','nama_skema','deskripsi'];
+    protected $table = 'skemas'; // ← tambahkan
+
+    protected $fillable = ['kode_skema', 'nama_skema', 'deskripsi'];
 
     public function pesertas()
     {
-        return $this->hasMany(Peserta::class);
+        return $this->hasMany(Peserta::class, 'skema_id');
     }
 }

@@ -20,6 +20,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::resource('peserta', PesertaController::class);
+    // Peserta: parameter route dipaksa jadi {peserta}
+    Route::resource('peserta', PesertaController::class)
+        ->parameters(['peserta' => 'peserta']);
+
+    // Skema: parameter dipaksa {skema}, dan hilangkan method show
     Route::resource('skema', SkemaController::class);
 });

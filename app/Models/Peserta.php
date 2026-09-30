@@ -6,10 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Peserta extends Model
 {
-    protected $fillable = ['nik','nama','email','no_hp','alamat','skema_id','tanggal_daftar'];
+    protected $table = 'pesertas'; // ← tambahkan ini biar eksplisit
+
+    protected $fillable = [
+        'nik', 'nama', 'email', 'no_hp', 'alamat', 'skema_id', 'tanggal_daftar'
+    ];
 
     public function skema()
     {
-        return $this->belongsTo(Skema::class);
+        return $this->belongsTo(Skema::class, 'skema_id');
     }
 }
