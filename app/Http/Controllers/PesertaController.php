@@ -102,9 +102,25 @@ class PesertaController extends Controller
 
     // Hapus data
     public function destroy(Peserta $peserta)
-    {
-        $peserta->delete();
-        return redirect()->route('peserta.index')
-                         ->with('sukses', 'Data peserta berhasil dihapus.');
-    }
+{
+    // === DEBUG WAJIB ===
+    \Log::info('========== DESTROY ==========');
+    \Log::info('URL: ' . request()->fullUrl());
+    \Log::info('Method: ' . request()->method());
+    \Log::info('ID dari binding: ' . $peserta->id);
+    \Log::info('NIK: ' . $peserta->nik);
+    \Log::info('Nama: ' . $peserta->nama);
+    \Log::info('Exists: ' . ($peserta->exists ? 'YES' : 'NO'));
+    \Log::info('Route Key Name: ' . $peserta->getRouteKeyName());
+    // === END DEBUG ===
+
+    $result = $peserta->delete();
+
+    \Log::info('Delete result: ' . ($result ? 'TRUE' : 'FALSE'));
+    \Log::info('Count after: ' . Peserta::count());
+    \Log::info('==============================');
+
+    return redirect()->route('peserta.index')
+                     ->with('sukses', 'Data peserta berhasil dihapus.');
+}
 }

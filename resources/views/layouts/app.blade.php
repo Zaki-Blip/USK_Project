@@ -2,38 +2,66 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>@yield('title', 'Aplikasi Sertifikasi')</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
-    <style>body{background:#0a0a0a;color:#e4e4e7}.card{background:#18181b;border-color:#27272a}.table{color:#e4e4e7}</style>
+    <style>
+    .list-group-item.active {
+        background-color: #198754;   
+        border-color: #06110d;
+        color: #fff;
+    }
+</style>
 </head>
 <body>
 
-<nav class="navbar navbar-dark bg-dark border-bottom border-secondary px-4">
-    <a class="navbar-brand text-warning fw-bold" href="{{ route('dashboard') }}">
-        <i class="bi bi-patch-check-fill text-warning me-1"></i>Aplikasi Sertifikasi
-    </a>
-    <div class="d-flex align-items-center gap-3">
-        <span class="text-secondary small"><i class="bi bi-person-circle me-1"></i>{{ Auth::user()->name }}</span>
-        <form method="POST" action="{{ route('logout') }}">@csrf
-            <button class="btn btn-sm btn-primary">Logout</button>
-        </form>
+<div class="d-flex">
+
+    {{-- Sidebar --}}
+    <div class="border-end bg-light p-3" style="width: 220px; min-height: 100vh;">
+        <h6 class="fw-bold mb-4 text-dark">
+            <i class="bi bi-patch-check-fill me-2"></i>Sertifikasi Siswa
+        </h6>   
+        <div class="list-group list-group-flush">
+            <a href="{{ route('dashboard') }}"
+               class="list-group-item list-group-item-action border-0 {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                Dashboard
+            </a>
+            <a href="{{ route('peserta.index') }}"
+               class="list-group-item list-group-item-action border-0 {{ request()->routeIs('peserta.*') ? 'active' : '' }}">
+                Peserta
+            </a>
+            <a href="{{ route('skema.index') }}"
+               class="list-group-item list-group-item-action border-0 {{ request()->routeIs('skema.*') ? 'active' : '' }}">
+                Skema
+            </a>
+        </div>
     </div>
-</nav>
 
-<div class="container-fluid">
-    <div class="row">
-        <nav class="col-md-2 bg-black p-3" style="min-height:calc(100vh - 60px)">
-            <a href="{{ route('dashboard') }}" class="d-block p-2 mb-1 rounded text-decoration-none {{ request()->routeIs('dashboard') ? 'bg-warning text-dark' : 'text-secondary' }}"><i class="bi bi-grid-1x2-fill me-2"></i>Dashboard</a>
-            <a href="{{ route('peserta.index') }}" class="d-block p-2 mb-1 rounded text-decoration-none {{ request()->routeIs('peserta.*') ? 'bg-warning text-dark' : 'text-secondary' }}"><i class="bi bi-people-fill me-2"></i>Peserta</a>
-            <a href="{{ route('skema.index') }}" class="d-block p-2 mb-1 rounded text-decoration-none {{ request()->routeIs('skema.*') ? 'bg-warning text-dark' : 'text-secondary' }}"><i class="bi bi-award-fill me-2"></i>Skema</a>
-        </nav>
+    {{-- Konten --}}
+    <div class="flex-grow-1">
 
-        <main class="col-md-10 p-4">
-            @if(session('sukses'))<div class="alert alert-success">{{ session('sukses') }}</div>@endif
-            @if(session('error'))<div class="alert alert-danger">{{ session('error') }}</div>@endif
+        {{-- Topbar --}}
+        <div class="border-bottom bg-success p-3 d-flex justify-content-between align-items-center">
+            <span class="fw-bold text-light ">@yield('title', 'Web Sertifikasi')</span>
+            <div class="d-flex align-items-center gap-3">
+                <form method="POST" action="{{ route('logout') }}">@csrf
+                    <button class="btn fw-bold btn-dark text-danger">Logout</button>
+                </form>
+            </div>
+        </div>
+
+        {{-- Isi --}}
+        <div class="p-4">
+            @if(session('sukses'))
+                <div class="alert alert-success">{{ session('sukses') }}</div>
+            @endif
+            @if(session('error'))
+                <div class="alert alert-danger">{{ session('error') }}</div>
+            @endif
+
             @yield('content')
-        </main>
+        </div>
     </div>
 </div>
 
