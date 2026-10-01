@@ -20,11 +20,11 @@
 
     <form method="POST" action="{{ route('login') }}">@csrf
         <div class="mb-3">
-            <label class="form-label">Email</label>
+            <label class="form-label fw-bold">Email*</label>
             <input type="email" name="email" class="form-control" value="{{ old('email') }}" required autofocus>
         </div>
         <div class="mb-3">
-            <label class="form-label">Password</label>
+            <label class="form-label fw-bold">Password*</label>
             <input type="password" name="password" class="form-control" required>
         </div>
         <button class="btn btn-success w-100">Masuk</button>

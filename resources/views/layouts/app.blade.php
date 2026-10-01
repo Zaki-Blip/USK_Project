@@ -18,9 +18,9 @@
 <div class="d-flex">
 
     {{-- Sidebar --}}
-    <div class="border-end bg-light p-3" style="width: 220px; min-height: 100vh;">
+    <div class="border-end bg-light p-1" style="width: 220px; min-height: 100vh;">
         <h6 class="fw-bold mb-4 text-dark">
-            <i class="bi bi-patch-check-fill me-2"></i>Sertifikasi Siswa
+            <i class="bi bi-patch-check-fill me-2 m-4 p-1"></i>Sertifikasi Siswa
         </h6>   
         <div class="list-group list-group-flush">
             <a href="{{ route('dashboard') }}"

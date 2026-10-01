@@ -12,6 +12,7 @@ class DashboardController extends Controller
         return view('dashboard', [
             'totalPeserta' => Peserta::count(),
             'totalSkema'   => Skema::count(),
+            'pesertas'     => Peserta::with('skema')->orderBy('skema_id')->orderBy('nama')->get(),
         ]);
     }
 }
