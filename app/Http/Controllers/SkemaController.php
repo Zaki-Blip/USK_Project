@@ -8,10 +8,24 @@ use Illuminate\Http\Request;
 class SkemaController extends Controller
 {
     public function index()
-    {
-        $skemas = Skema::withCount('pesertas')->latest()->paginate(10);
-        return view('skema.index', compact('skemas'));
-    }
+{
+    $user = auth()->user();
+
+    $skemas = $user->isAdmin()
+        ? Skema::all()
+        : Skema::where('id', $user->peserta?->skema_id)->get();
+
+    return view('skema.index', compact('skemas'));
+}
+
+public function show(Skema $skema)
+{
+    $user = auth()->user();
+
+    abort_if(! $user->isAdmin() && $skema->id !== $user->peserta?->skema_id, 403);
+
+    return view('skema.show', compact('skema'));
+}
 
     public function create()
     {
@@ -59,13 +73,7 @@ class SkemaController extends Controller
         $skema->update($validated);
         return redirect()->route('skema.index')->with('sukses', 'Skema berhasil diperbarui.');
     }
-    public function show(Skema $skema)
-    {
-        $skema->load('pesertas');
-        return view('skema.show', compact('skema'));
-    }
-
-
+    
     public function destroy(Skema $skema)
     {
         // Cek apakah masih dipakai peserta

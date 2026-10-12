@@ -34,7 +34,8 @@
                class="list-group-item list-group-item-action border-0 {{ request()->routeIs('skema.*') ? 'active' : '' }}">
                 Skema
             </a>
-            <a href="{{ route('dashboard') }}" class="navbar-brand fw-bold">
+            <a href="{{ route('halamanAwal') }}" class="navbar-brand fw-bold">
+                
             </a>
         </div>
     </div>

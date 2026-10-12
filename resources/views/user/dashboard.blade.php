@@ -6,7 +6,7 @@
     <div class="card shadow-sm p-4 mb-4">
         <h4 class="fw-bold mb-1">Halo, {{ auth()->user()->name }}!</h4>
         <p class="text-muted mb-0">
-            Selamat datang di Web Sertifikasi Siswa. Berikut data sertifikasi lu.
+            Selamat datang di Web Sertifikasi Siswa. Berikut data pendaftaran lu.
         </p>
     </div>
 
@@ -17,24 +17,38 @@
             </h6>
             <table class="table table-borderless mb-0">
                 <tr>
-                    <th style="width: 200px;">Nama</th>
+                    <th style="width: 200px;">NIK</th>
+                    <td>{{ $peserta->nik }}</td>
+                </tr>
+                <tr>
+                    <th>Nama</th>
                     <td>{{ $peserta->nama }}</td>
                 </tr>
                 <tr>
-                    <th>Email Akun</th>
-                    <td>{{ auth()->user()->email }}</td>
+                    <th>Email</th>
+                    <td>{{ $peserta->email }}</td>
+                </tr>
+                <tr>
+                    <th>No. HP</th>
+                    <td>{{ $peserta->no_hp }}</td>
+                </tr>
+                <tr>
+                    <th>Alamat</th>
+                    <td>{{ $peserta->alamat }}</td>
                 </tr>
                 <tr>
                     <th>Skema Sertifikasi</th>
-                    <td>{{ $peserta->skema->nama ?? '-' }}</td>
+                    <td>{{ $peserta->skema?->nama_skema ?? '-' }}</td>
                 </tr>
-                {{-- Tambahkan kolom lain milik peserta di sini, misalnya: --}}
-                {{-- <tr><th>No. Telepon</th><td>{{ $peserta->telepon }}</td></tr> --}}
+                <tr>
+                    <th>Tanggal Daftar</th>
+                    <td>{{ $peserta->tanggal_daftar }}</td>
+                </tr>
             </table>
         </div>
     @else
         <div class="alert alert-warning mb-0">
-            Data peserta untuk akun ini belum dihubungkan. Silakan hubungi admin.
+            Data peserta untuk akun ini tidak ditemukan. Silakan hubungi admin.
         </div>
     @endif
 @endsection

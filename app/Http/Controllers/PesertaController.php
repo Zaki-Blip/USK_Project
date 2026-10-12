@@ -9,22 +9,22 @@ use Illuminate\Http\Request;
 class PesertaController extends Controller
 {
     // Tampil semua peserta + pencarian
-    public function index(Request $request)
+    public function index()
     {
-        $query = Peserta::with('skema');
+        $user = auth()->user();
 
-        if ($request->filled('cari')) {
-            $kw = $request->cari;
-            $query->where(function ($q) use ($kw) {
-                $q->where('nama', 'like', "%{$kw}%")
-                  ->orWhere('nik', 'like', "%{$kw}%")
-                  ->orWhere('email', 'like', "%{$kw}%")
-                  ->orWhereHas('skema', fn($s) => $s->where('nama_skema', 'like', "%{$kw}%"));
-            });
-        }
+        $pesertas = $user->isAdmin()
+            ? Peserta::with('skema')->orderBy('nama')->get()
+            : Peserta::with('skema')->where('user_id', $user->id)->get();
 
-        $pesertas = $query->latest()->paginate(10)->withQueryString();
         return view('peserta.index', compact('pesertas'));
+    }
+
+    public function show(Peserta $peserta)
+    {
+        abort_if(! auth()->user()->isAdmin() && $peserta->user_id !== auth()->id(), 403);
+
+        return view('peserta.show', compact('peserta'));
     }
 
     // Form tambah
@@ -64,13 +64,6 @@ class PesertaController extends Controller
 
         return redirect()->route('peserta.index')
                          ->with('sukses', 'Data peserta berhasil ditambahkan.');
-    }
-
-    // Detail peserta
-    public function show(Peserta $peserta)
-    {
-        $peserta->load('skema');
-        return view('peserta.show', compact('peserta'));
     }
 
     // Form edit

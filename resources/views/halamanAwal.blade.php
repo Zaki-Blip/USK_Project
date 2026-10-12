@@ -35,7 +35,9 @@
         </div>
     </div>
 </nav>
-
+@if(session('sukses'))
+    <div class="alert alert-success text-center mb-0 rounded-0">{{ session('sukses') }}</div>
+@endif
 <section id="beranda" class="container text-start py-5">
     <div class="py-5">
         <i class="bi bi-patch-check-fill text-success" style="font-size: 4rem;"></i>

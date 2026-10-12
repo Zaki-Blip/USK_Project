@@ -28,11 +28,11 @@
             <input type="password" name="password" class="form-control" required>
         </div>
         <button class="btn btn-success w-100">Masuk</button>
+        <a href="{{ route('halamanAwal') }}" class="btn btn-outline-secondary w-100 mt-2">
+            <i class="bi bi-arrow-left me-1"></i>Kembali
+        </a>
     </form>
 
-    <a href="{{ route('halamanAwal') }}" class="btn btn-outline-secondary w-100 mt-2">
-        <i></i>Kembali
-    </a>
 </div>
 
 </body>

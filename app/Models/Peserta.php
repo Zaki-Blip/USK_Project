@@ -9,7 +9,7 @@ class Peserta extends Model
     protected $table = 'pesertas'; 
 
     protected $fillable = [
-        'nik', 'nama', 'email', 'no_hp', 'alamat', 'skema_id', 'tanggal_daftar'
+        'nik', 'nama', 'email', 'no_hp', 'alamat', 'skema_id', 'tanggal_daftar','user_id'
     ];
 
     public function skema()

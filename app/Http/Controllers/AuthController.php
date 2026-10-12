@@ -2,35 +2,56 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Peserta;
+use App\Models\Skema;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
     public function showRegister()
 {
-     return view('auth.register');
+    $skemas = Skema::orderBy('nama_skema')->get();
+
+    return view('auth.register', compact('skemas'));
 }
 
 public function register(Request $request)
 {
     $data = $request->validate([
+        'nik'      => 'required|digits:16|unique:pesertas,nik',
         'name'     => 'required|string|max:255',
         'email'    => 'required|email|unique:users,email',
+        'no_hp'    => 'required|string|max:20',
+        'alamat'   => 'required|string',
+        'skema_id' => 'required|exists:skemas,id',
         'password' => 'required|min:6|confirmed',
     ]);
 
-    $user = User::create([
-        'name'     => $data['name'],
-        'email'    => $data['email'],
-        'password' => Hash::make($data['password']),
-    ]);
+    DB::transaction(function () use ($data) {
+        $user = User::create([
+            'name'     => $data['name'],
+            'email'    => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
 
-    Auth::login($user);
+        Peserta::create([
+            'user_id'        => $user->id,
+            'nik'            => $data['nik'],
+            'nama'           => $data['name'],
+            'email'          => $data['email'],
+            'no_hp'          => $data['no_hp'],
+            'alamat'         => $data['alamat'],
+            'skema_id'       => $data['skema_id'],
+            'tanggal_daftar' => now()->toDateString(),
+        ]);
+    });
 
-    return redirect()->route('dashboard');
+    return redirect()->route('halamanAwal')
+        ->with('sukses', 'Registrasi berhasil. Silakan login.');
 }
     // Tampilkan form login
     public function showLogin()
