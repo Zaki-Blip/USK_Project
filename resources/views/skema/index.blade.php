@@ -11,7 +11,10 @@
         <table class="table table-bordered table-hover align-middle mb-0">
             <thead class="table-success">
                 <tr>
-                    <th>No</th><th>Kode</th><th>Nama</th><th>Deskripsi</th><th>Peserta</th>
+                    <th>No</th>
+                    <th>Kode</th>
+                    <th>Nama</th>
+                    <th>Deskripsi</th>
                     <th class="text-center">Aksi</th>
                 </tr>
             </thead>
@@ -22,7 +25,6 @@
                     <td><span class="badge bg-success">{{ $s->kode_skema }}</span></td>
                     <td class="fw-bold">{{ $s->nama_skema }}</td>
                     <td><small class="text-muted">{{ \Str::limit($s->deskripsi, 50) ?: '-' }}</small></td>
-                    <td>{{ $s->pesertas_count }} orang</td>
                     <td class="text-center">
                         <a href="{{ route('skema.show', $s) }}" class="btn btn-sm btn-info text-white"><i class="bi bi-eye"></i></a>
                         <a href="{{ route('skema.edit', $s) }}" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
