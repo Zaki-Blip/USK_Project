@@ -16,7 +16,7 @@ class AuthController extends Controller
     // Proses login
     public function login(Request $request)
     {
-        // 1. Validasi input
+       
         $credentials = $request->validate([
             'email'    => ['required', 'email'],
             'password' => ['required'],
@@ -26,9 +26,9 @@ class AuthController extends Controller
             'password.required' => 'Password wajib diisi.',
         ]);
 
-        // 2. Coba login pakai Auth bawaan Laravel
+        
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
-            $request->session()->regenerate(); // cegah session fixation
+            $request->session()->regenerate();
             return redirect()->intended('/dashboard')
                              ->with('sukses', 'Selamat datang, ' . Auth::user()->name);
         }

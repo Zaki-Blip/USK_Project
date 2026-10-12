@@ -15,7 +15,7 @@
     </h5>
 
     @if($errors->any())
-        <div class="alert alert-danger py-2 small">{{ $errors->first() }}</div>
+        <div class="alert alert-danger py-3 small">{{ $errors->first() }}</div>
     @endif
 
     <form method="POST" action="{{ route('login') }}">@csrf

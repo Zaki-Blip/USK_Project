@@ -34,7 +34,7 @@ class PesertaController extends Controller
         return view('peserta.create', compact('skemas'));
     }
 
-    // Simpan data baru
+        
     public function store(Request $request)
     {
         $validated = $request->validate([
