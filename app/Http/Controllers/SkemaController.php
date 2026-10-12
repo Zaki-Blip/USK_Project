@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Skema;
+//use App\Models\User;
 use Illuminate\Http\Request;
 
 class SkemaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
 {
-    $user = auth()->user();
+    $user = $request->user();
 
     $skemas = $user->isAdmin()
         ? Skema::all()
@@ -18,11 +19,11 @@ class SkemaController extends Controller
     return view('skema.index', compact('skemas'));
 }
 
-public function show(Skema $skema)
+public function show(Request $request, Skema $skema)
 {
-    $user = auth()->user();
+    $user = $request->user();
 
-    abort_if(! $user->isAdmin() && $skema->id !== $user->peserta?->skema_id, 403);
+    abort_if(! $user->isAdmin() && $skema->id != $user->peserta?->skema_id, 403);
 
     return view('skema.show', compact('skema'));
 }
@@ -73,7 +74,7 @@ public function show(Skema $skema)
         $skema->update($validated);
         return redirect()->route('skema.index')->with('sukses', 'Skema berhasil diperbarui.');
     }
-    
+
     public function destroy(Skema $skema)
     {
         // Cek apakah masih dipakai peserta

@@ -18,7 +18,7 @@
             <tbody>
             @forelse($skemas as $i => $s)
                 <tr>
-                    <td>{{ $skemas->firstItem() + $i }}</td>
+                    <td>{{ $loop->iteration }}</td>
                     <td><span class="badge bg-success">{{ $s->kode_skema }}</span></td>
                     <td class="fw-bold">{{ $s->nama_skema }}</td>
                     <td><small class="text-muted">{{ \Str::limit($s->deskripsi, 50) ?: '-' }}</small></td>
@@ -39,7 +39,7 @@
         </table>
     </div>
 
-    <div class="mt-3">{{ $skemas->links() }}</div>
+
 </div>
 
 @endsection

@@ -12,10 +12,10 @@
 
     @if($peserta)
         <div class="card shadow-sm p-4">
-            <h6 class="fw-bold mb-3">
-                <i class="bi bi-person-badge text-success me-1"></i>Data Saya
-            </h6>
             <table class="table table-borderless mb-0">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0">Data Saya</h5>
+                </div>
                 <tr>
                     <th style="width: 200px;">NIK</th>
                     <td>{{ $peserta->nik }}</td>
@@ -46,6 +46,7 @@
                 </tr>
             </table>
         </div>
+
     @else
         <div class="alert alert-warning mb-0">
             Data peserta untuk akun ini tidak ditemukan. Silakan hubungi admin.

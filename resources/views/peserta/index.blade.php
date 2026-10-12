@@ -27,7 +27,7 @@
             <tbody>
             @forelse($pesertas as $i => $p)
                 <tr>
-                    <td>{{ $pesertas->firstItem() + $i }}</td>
+                    <td>{{ $loop->iteration }}</td>
                     <td>{{ $p->nik }}</td>
                     <td>
                         <strong>{{ $p->nama }}</strong><br>
@@ -51,7 +51,7 @@
         </table>
     </div>
 
-    <div class="mt-3">{{ $pesertas->links() }}</div>
+
 </div>
 
 @endsection

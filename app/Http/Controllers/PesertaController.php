@@ -3,29 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Models\Peserta;
+//use App\Models\User;
 use App\Models\Skema;
 use Illuminate\Http\Request;
 
 class PesertaController extends Controller
 {
     // Tampil semua peserta + pencarian
-    public function index()
-    {
-        $user = auth()->user();
+    public function index(Request $request)
+{
+    $user = $request->user();
 
-        $pesertas = $user->isAdmin()
-            ? Peserta::with('skema')->orderBy('nama')->get()
-            : Peserta::with('skema')->where('user_id', $user->id)->get();
+    $pesertas = $user->isAdmin()
+        ? Peserta::with('skema')->orderBy('nama')->get()
+        : Peserta::with('skema')->where('user_id', $user->id)->get();
 
-        return view('peserta.index', compact('pesertas'));
-    }
+    return view('peserta.index', compact('pesertas'));
+}
 
-    public function show(Peserta $peserta)
-    {
-        abort_if(! auth()->user()->isAdmin() && $peserta->user_id !== auth()->id(), 403);
+public function show(Request $request, Peserta $peserta)
+{
+    $user = $request->user();
 
-        return view('peserta.show', compact('peserta'));
-    }
+    abort_if(! $user->isAdmin() && $peserta->user_id !== $user->id, 403);
+
+    return view('peserta.show', compact('peserta'));
+}
 
     // Form tambah
     public function create()
@@ -34,7 +37,7 @@ class PesertaController extends Controller
         return view('peserta.create', compact('skemas'));
     }
 
-        
+
     public function store(Request $request)
     {
         $validated = $request->validate([
