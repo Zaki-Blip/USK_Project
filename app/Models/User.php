@@ -29,4 +29,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function peserta()
+{
+    return $this->hasOne(Peserta::class);
+}
 }

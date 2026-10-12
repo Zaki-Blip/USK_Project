@@ -21,13 +21,16 @@ class SkemaController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'kode_skema' => 'required|max:20|unique:skemas,kode_skema',
-            'nama_skema' => 'required|max:150',
-            'deskripsi'  => 'nullable|string',
+            'kode_skema' => ['required', 'max:20', 'regex:/^[A-Z]{2,6}-[A-Z0-9]{2,6}-?[0-9]{0,4}$/', 'unique:skemas,kode_skema'],
+            'nama_skema' => ['required', 'max:150', 'regex:/^[a-zA-Z0-9\s\.\-\/]+$/'],
+            'deskripsi'  => ['nullable', 'string', 'max:500'],
         ], [
             'kode_skema.required' => 'Kode skema wajib diisi.',
+            'kode_skema.regex'    => 'Format kode: JWD-2026 atau SKM-WEB-01.',
             'kode_skema.unique'   => 'Kode skema sudah dipakai.',
             'nama_skema.required' => 'Nama skema wajib diisi.',
+            'nama_skema.regex'    => 'Nama hanya boleh huruf, angka, dan simbol dasar.',
+            'deskripsi.max'       => 'Deskripsi maksimal 500 karakter.',
         ]);
 
         Skema::create($validated);
@@ -42,9 +45,15 @@ class SkemaController extends Controller
     public function update(Request $request, Skema $skema)
     {
         $validated = $request->validate([
-            'kode_skema' => 'required|max:20|unique:skemas,kode_skema,' . $skema->id,
-            'nama_skema' => 'required|max:150',
-            'deskripsi'  => 'nullable|string',
+            'kode_skema' => ['required', 'max:20','unique:skemas,kode_skema,' . $skema->id],
+            'nama_skema' => ['required', 'max:150', 'regex:/^[a-zA-Z0-9\s\.\-\/]+$/'],
+            'deskripsi'  => ['nullable', 'string', 'max:500'],
+        ], [
+            'kode_skema.required' => 'Kode skema wajib diisi.',
+            'kode_skema.unique'   => 'Kode skema sudah dipakai.',
+            'nama_skema.required' => 'Nama skema wajib diisi.',
+            'nama_skema.regex'    => 'Nama hanya boleh huruf, angka, dan simbol dasar.',
+            'deskripsi.max'       => 'Deskripsi maksimal 500 karakter.',
         ]);
 
         $skema->update($validated);

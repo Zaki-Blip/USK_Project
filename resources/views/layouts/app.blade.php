@@ -17,7 +17,6 @@
 
 <div class="d-flex">
 
-    {{-- Sidebar --}}
     <div class="border-end bg-light p-1" style="width: 220px; min-height: 100vh;">
         <h6 class="fw-bold mb-4 text-dark">
             <i class="bi bi-patch-check-fill me-2 m-4 p-1"></i>Sertifikasi Siswa
@@ -35,10 +34,11 @@
                class="list-group-item list-group-item-action border-0 {{ request()->routeIs('skema.*') ? 'active' : '' }}">
                 Skema
             </a>
+            <a href="{{ route('dashboard') }}" class="navbar-brand fw-bold">
+            </a>
         </div>
     </div>
 
-    {{-- Konten --}}
     <div class="flex-grow-1">
 
         {{-- Topbar --}}

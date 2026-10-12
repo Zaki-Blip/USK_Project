@@ -38,24 +38,26 @@ class PesertaController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nik'            => 'required|digits:16|unique:pesertas,nik',
-            'nama'           => 'required|max:100',
-            'email'          => 'required|email|unique:pesertas,email',
-            'no_hp'          => 'nullable|max:15',
-            'alamat'         => 'nullable|string',
-            'skema_id'       => 'required|exists:skemas,id',
-            'tanggal_daftar' => 'required|date',
+            'nik'            => ['required', 'regex:/^[0-9]{16}$/', 'unique:pesertas,nik'],
+            'nama'           => ['required', 'max:100', 'regex:/^[a-zA-Z\s\.\']+$/'],
+            'email'          => ['required', 'email:rfc,dns', 'unique:pesertas,email'],
+            'no_hp'          => ['nullable', 'regex:/^08[0-9]{8,11}$/'],
+            'alamat'         => ['nullable', 'string', 'max:500'],
+            'skema_id'       => ['required', 'exists:skemas,id'],
+            'tanggal_daftar' => ['required', 'date', 'before_or_equal:today'],
         ], [
-            'nik.required'            => 'NIK wajib diisi.',
-            'nik.digits'              => 'NIK harus 16 digit.',
-            'nik.unique'              => 'NIK sudah terdaftar.',
-            'nama.required'           => 'Nama wajib diisi.',
-            'email.required'          => 'Email wajib diisi.',
-            'email.email'             => 'Format email tidak valid.',
-            'email.unique'            => 'Email sudah terdaftar.',
-            'skema_id.required'       => 'Skema wajib dipilih.',
-            'skema_id.exists'         => 'Skema tidak ditemukan.',
-            'tanggal_daftar.required' => 'Tanggal daftar wajib diisi.',
+            'nik.required'   => 'NIK wajib diisi.',
+            'nik.regex'      => 'NIK harus 16 digit angka.',
+            'nik.unique'     => 'NIK sudah terdaftar.',
+            'nama.required'  => 'Nama wajib diisi.',
+            'nama.regex'     => 'Nama hanya boleh huruf & spasi.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email'    => 'Format email tidak valid.',
+            'email.unique'   => 'Email sudah terdaftar.',
+            'no_hp.regex'    => 'No HP harus format 08xxxxxxxxxx.',
+            'skema_id.required' => 'Skema wajib dipilih.',
+            'skema_id.exists'   => 'Skema tidak ditemukan.',
+            'tanggal_daftar.before_or_equal' => 'Tanggal tidak boleh masa depan.',
         ]);
 
         Peserta::create($validated);
@@ -82,16 +84,20 @@ class PesertaController extends Controller
     public function update(Request $request, Peserta $peserta)
     {
         $validated = $request->validate([
-            'nama'           => 'required|max:100',
-            'email'          => 'required|email|unique:pesertas,email,' . $peserta->id,
-            'no_hp'          => 'nullable|max:15',
-            'alamat'         => 'nullable|string',
-            'skema_id'       => 'required|exists:skemas,id',
-            'tanggal_daftar' => 'required|date',
+            'nama'           => ['required', 'max:100', 'regex:/^[a-zA-Z\s\.\']+$/'],
+            'email'          => ['required', 'email:rfc,dns', 'unique:pesertas,email,' . $peserta->id],
+            'no_hp'          => ['nullable', 'regex:/^08[0-9]{8,11}$/'],
+            'alamat'         => ['nullable', 'string', 'max:500'],
+            'skema_id'       => ['required', 'exists:skemas,id'],
+            'tanggal_daftar' => ['required', 'date', 'before_or_equal:today'],
         ], [
             'nama.required'  => 'Nama wajib diisi.',
+            'nama.regex'     => 'Nama hanya boleh huruf & spasi.',
+            'email.email'    => 'Format email tidak valid.',
             'email.unique'   => 'Email sudah dipakai peserta lain.',
+            'no_hp.regex'    => 'No HP harus format 08xxxxxxxxxx.',
             'skema_id.exists'=> 'Skema tidak valid.',
+            'tanggal_daftar.before_or_equal' => 'Tanggal tidak boleh masa depan.',
         ]);
 
         $peserta->update($validated);

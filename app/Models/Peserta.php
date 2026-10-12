@@ -16,4 +16,8 @@ class Peserta extends Model
     {
         return $this->belongsTo(Skema::class, 'skema_id');
     }
+    public function user()
+{
+    return $this->belongsTo(User::class);
+}
 }
