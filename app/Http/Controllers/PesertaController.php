@@ -77,7 +77,7 @@ class PesertaController extends Controller
     }
 
     $validated = $request->validate([
-        'nik'            => ['required', 'regex:/^[0-9]{16}$/', 'unique:pesertas,nik'],
+        'nik'            => ['required', 'numeric', 'regex:/^[0-9]{16}$/', 'unique:pesertas,nik'],
         'nama'           => ['required', 'max:100', 'regex:/^[a-zA-Z\s\.\']+$/'],
         'email'          => $emailRules,
         'no_hp'          => ['required', 'regex:/^08[0-9]{8,13}$/'],

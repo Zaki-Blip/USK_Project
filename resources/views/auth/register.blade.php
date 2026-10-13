@@ -37,11 +37,9 @@
         </div>
         <button class="btn btn-success w-100">Daftar</button>
     </form>
-
     <a href="{{ route('halamanAwal') }}" class="btn btn-outline-secondary w-100 mt-2">
         <i class="bi bi-arrow-left me-1"></i>Kembali
     </a>
-
     <p class="text-center small text-muted mt-3 mb-0">
         Sudah punya akun? <a href="{{ route('login') }}" class="text-success fw-bold">Login</a>
     </p>

@@ -25,7 +25,7 @@
             </div>
             <div class="col-md-6">
                 <label class="form-label">No HP</label>
-                <input type="text" name="no_hp" maxlength="15" class="form-control" value="{{ old('no_hp') }}">
+                <input type="text" name="no_hp" class="form-control" value="{{ old('no_hp') }}">
             </div>
             <div class="col-md-6">
                 <label class="form-label">Skema *</label>
