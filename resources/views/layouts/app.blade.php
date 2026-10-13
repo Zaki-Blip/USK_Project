@@ -30,24 +30,30 @@
 
                 <a href="{{ route('dashboard') }}"
                    class="nav-link {{ request()->routeIs('dashboard') ? 'active bg-success' : 'text-dark' }}">
-                    <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                    <i class="bi me-2"></i>Dashboard
                 </a>
-
                 @if(auth()->user()->isAdmin())
                     <a href="{{ route('peserta.index') }}"
-                       class="nav-link {{ request()->routeIs('peserta.*') ? 'active bg-success' : 'text-dark' }}">
-                        <i class="bi bi-people-fill me-2"></i>Peserta
+                    class="nav-link {{ request()->routeIs('peserta.*') ? 'active bg-success' : 'text-dark' }}">
+                        <i class="bi me-2"></i>Peserta
                     </a>
 
                     <a href="{{ route('skema.index') }}"
-                       class="nav-link {{ request()->routeIs('skema.*') ? 'active bg-success' : 'text-dark' }}">
-                        <i class="bi bi-journal-text me-2"></i>Skema
+                    class="nav-link {{ request()->routeIs('skema.*') ? 'active bg-success' : 'text-dark' }}">
+                        <i class="bi me-2"></i>Skema
                     </a>
-                @elseif(auth()->user()->peserta)
-                    <a href="{{ route('peserta.show', auth()->user()->peserta) }}"
-                       class="nav-link {{ request()->routeIs('peserta.*') ? 'active bg-success' : 'text-dark' }}">
-                        <i class="bi bi-person-circle me-2"></i>Edit Daya Saya
-                    </a>
+                @else
+                    @if(auth()->user()->peserta)
+                        <a href="{{ route('peserta.show', auth()->user()->peserta) }}"
+                        class="nav-link {{ request()->routeIs('peserta.show') ? 'active bg-success' : 'text-dark' }}">
+                            <i class="bi me-2"></i>Data Saya
+                        </a>
+                    @else
+                        <a href="{{ route('peserta.create') }}"
+                        class="nav-link {{ request()->routeIs('peserta.create') ? 'active bg-success' : 'text-dark' }}">
+                            <i class="bi me-2"></i>Isi Biodata
+                        </a>
+                    @endif
                 @endif
 
             </nav>
@@ -55,14 +61,22 @@
 
         {{-- Isi Content --}}
         <main class="flex-grow-1 p-4" style="min-width: 0;">
-            <div class="mx-auto" style="max-width: 1000px;">
+            <div class="w-100">
                 @if(session('sukses'))
                     <div class="alert alert-success">{{ session('sukses') }}</div>
                 @endif
                 @if(session('error'))
                     <div class="alert alert-danger">{{ session('error') }}</div>
                 @endif
-
+               @if($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0 ps-3">
+                            @foreach($errors->all() as $pesan)
+                                <li>{{ $pesan }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 @yield('content')
             </div>
         </main>

@@ -63,7 +63,7 @@ class SkemaController extends Controller implements HasMiddleware
     public function update(Request $request, Skema $skema)
     {
         $validated = $request->validate([
-            'kode_skema' => ['required', 'max:20', 'unique:skemas,kode_skema,' . $skema->id],
+            'kode_skema' => ['required', 'max:20','regex:/^[A-Z]{2,6}-[A-Z0-9]{2,6}-?[0-9]{0,4}$/', 'unique:skemas,kode_skema,' . $skema->id],
             'nama_skema' => ['required', 'max:150', 'regex:/^[a-zA-Z0-9\s\.\-\/]+$/'],
             'deskripsi'  => ['nullable', 'string', 'max:500'],
         ], [

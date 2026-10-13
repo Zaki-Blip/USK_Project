@@ -17,7 +17,10 @@
 
     <div class="mt-3">
         <a href="{{ route('peserta.edit', $peserta) }}" class="btn btn-warning">Edit</a>
-        <a href="{{ route('peserta.index') }}" class="btn btn-secondary">Kembali</a>
+        <a href="{{ auth()->user()->isAdmin() ? route('peserta.index') : route('dashboard') }}"
+            class="btn btn-secondary">
+                <i class="bi bi-arrow-left me-1"></i>Kembali
+        </a>
     </div>
 </div>
 

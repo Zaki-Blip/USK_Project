@@ -3,14 +3,17 @@
 @section('title', 'Dashboard')
 
 @section('content')
-    <div class="card shadow-sm p-4 mb-4">
-        <h4 class="fw-bold mb-1">Halo, {{ auth()->user()->name }}!</h4>
-        <p class="text-muted mb-0">
-            Selamat datang di Web Sertifikasi Siswa. Berikut data pendaftaran lu.
-        </p>
-    </div>
-
-    @if($peserta)
+    @if(! $peserta)
+        <div class="card p-4 text-center">
+            <h5 class="fw-bold mb-2">Selamat datang, {{ auth()->user()->name }}!</h5>
+            <p class="text-muted mb-3">Biodata kamu belum diisi. Tolong diisi terlebih dahulu</p>
+            <div>
+                <a href="{{ route('peserta.create') }}" class="btn btn-success">
+                    <i class="bi bi-pencil-square me-1"></i>Isi Biodata
+                </a>
+            </div>
+        </div>
+    @elseif($peserta)
         <div class="card shadow-sm p-4">
             <table class="table table-borderless mb-0">
                 <div class="d-flex justify-content-between align-items-center mb-3">

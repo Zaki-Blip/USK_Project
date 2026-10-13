@@ -27,13 +27,13 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:admin')->group(function () {
         Route::resource('peserta', PesertaController::class)
             ->parameters(['peserta' => 'peserta'])
-            ->only(['create', 'store', 'destroy']);
+            ->only(['destroy']);
 
         Route::resource('skema', SkemaController::class);
     });
 
-    // Admin & user
+    // Admin & user (pembatasan data dilakukan di controller)
     Route::resource('peserta', PesertaController::class)
         ->parameters(['peserta' => 'peserta'])
-        ->only(['index', 'show', 'edit', 'update']);
+        ->only(['index', 'show', 'create', 'store', 'edit', 'update']);
 });

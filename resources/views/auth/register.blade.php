@@ -20,35 +20,12 @@
 
     <form method="POST" action="{{ route('register') }}">@csrf
         <div class="mb-3">
-            <label class="form-label fw-bold">NIK*</label>
-            <input type="text" name="nik" class="form-control" value="{{ old('nik') }}" maxlength="16" required autofocus>
-        </div>
-        <div class="mb-3">
             <label class="form-label fw-bold">Nama Lengkap*</label>
             <input type="text" name="name" class="form-control" value="{{ old('name') }}" required>
         </div>
         <div class="mb-3">
             <label class="form-label fw-bold">Email*</label>
             <input type="email" name="email" class="form-control" value="{{ old('email') }}" required>
-        </div>
-        <div class="mb-3">
-            <label class="form-label fw-bold">No. HP*</label>
-            <input type="text" name="no_hp" class="form-control" value="{{ old('no_hp') }}" required>
-        </div>
-        <div class="mb-3">
-            <label class="form-label fw-bold">Alamat*</label>
-            <textarea name="alamat" class="form-control" rows="2" required>{{ old('alamat') }}</textarea>
-        </div>
-        <div class="mb-3">
-            <label class="form-label fw-bold">Skema Sertifikasi*</label>
-            <select name="skema_id" class="form-select" required>
-                <option value="">-- Pilih Skema --</option>
-                @foreach($skemas as $s)
-                    <option value="{{ $s->id }}" {{ old('skema_id') == $s->id ? 'selected' : '' }}>
-                        {{ $s->nama_skema }}
-                    </option>
-                @endforeach
-            </select>
         </div>
         <div class="mb-3">
             <label class="form-label fw-bold">Password*</label>

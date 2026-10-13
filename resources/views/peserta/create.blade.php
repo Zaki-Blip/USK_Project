@@ -13,12 +13,14 @@
             </div>
             <div class="col-md-6">
                 <label class="form-label">Nama *</label>
-                <input type="text" name="nama" class="form-control" value="{{ old('nama') }}">
+                <input type="text" name="nama" class="form-control"
+                value="{{ old('nama', auth()->user()->isAdmin() ? '' : auth()->user()->name) }}">
                 @error('nama')<small class="text-danger">{{ $message }}</small>@enderror
             </div>
             <div class="col-md-6">
                 <label class="form-label">Email *</label>
-                <input type="email" name="email" class="form-control" value="{{ old('email') }}">
+                <input type="email" name="email" class="form-control"
+                value="{{ old('email', auth()->user()->isAdmin() ? '' : auth()->user()->email) }}">
                 @error('email')<small class="text-danger">{{ $message }}</small>@enderror
             </div>
             <div class="col-md-6">
