@@ -9,7 +9,7 @@
             <p class="text-muted mb-3">Biodata kamu belum diisi. Tolong diisi terlebih dahulu</p>
             <div>
                 <a href="{{ route('peserta.create') }}" class="btn btn-success">
-                    <i class="bi bi-pencil-square me-1"></i>Isi Biodata
+                    <i class="bi me-1"></i>Isi Biodata
                 </a>
             </div>
         </div>
