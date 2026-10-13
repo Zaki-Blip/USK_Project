@@ -22,13 +22,30 @@ class AuthController extends Controller
 public function register(Request $request)
 {
     $data = $request->validate([
-        'nik'      => 'required|digits:16|unique:pesertas,nik',
-        'name'     => 'required|string|max:255',
-        'email'    => 'required|email|unique:users,email',
-        'no_hp'    => 'required|string|max:20',
-        'alamat'   => 'required|string',
-        'skema_id' => 'required|exists:skemas,id',
-        'password' => 'required|min:6|confirmed',
+        'nik'      => ['required', 'digits:16', 'unique:pesertas,nik'],
+        'name'     => ['required', 'string', 'max:255', 'regex:/^[a-zA-Z\s\.\']+$/'],
+        'email'    => ['required', 'email:rfc,dns', 'unique:users,email', 'unique:pesertas,email'],
+        'no_hp'    => ['required', 'regex:/^08[0-9]{9,11}$/'],
+        'alamat'   => ['required', 'string', 'max:500'],
+        'skema_id' => ['required', 'exists:skemas,id'],
+        'password' => ['required', 'min:6', 'confirmed'],
+    ], [
+        'nik.required'       => 'NIK wajib diisi.',
+        'nik.digits'         => 'NIK harus 16 digit.',
+        'nik.unique'         => 'NIK sudah terdaftar.',
+        'name.required'      => 'Nama wajib diisi.',
+        'name.regex'         => 'Nama hanya boleh berisi huruf, spasi, titik, dan petik.',
+        'email.required'     => 'Email wajib diisi.',
+        'email.email'        => 'Format email tidak valid.',
+        'email.unique'       => 'Email sudah terdaftar.',
+        'no_hp.required'     => 'No HP wajib diisi.',
+        'no_hp.regex'        => 'No HP harus diawali 08 dan memiliki panjang 11-13 digit.',
+        'alamat.required'    => 'Alamat wajib diisi.',
+        'skema_id.required'  => 'Skema wajib dipilih.',
+        'skema_id.exists'    => 'Skema tidak ditemukan.',
+        'password.required'  => 'Password wajib diisi.',
+        'password.min'       => 'Password minimal 6 karakter.',
+        'password.confirmed' => 'Konfirmasi password tidak cocok.',
     ]);
 
     DB::transaction(function () use ($data) {

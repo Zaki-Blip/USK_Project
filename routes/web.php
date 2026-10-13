@@ -23,21 +23,17 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Khusus admin (harus di atas)
+    // Khusus admin
     Route::middleware('role:admin')->group(function () {
         Route::resource('peserta', PesertaController::class)
             ->parameters(['peserta' => 'peserta'])
             ->only(['create', 'store', 'destroy']);
 
-        Route::resource('skema', SkemaController::class)
-            ->except(['index', 'show']);
+        Route::resource('skema', SkemaController::class);
     });
 
     // Admin & user
     Route::resource('peserta', PesertaController::class)
         ->parameters(['peserta' => 'peserta'])
         ->only(['index', 'show', 'edit', 'update']);
-
-    Route::resource('skema', SkemaController::class)
-        ->only(['index', 'show']);
 });

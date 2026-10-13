@@ -3,30 +3,33 @@
 namespace App\Http\Controllers;
 
 use App\Models\Skema;
-//use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class SkemaController extends Controller
+class SkemaController extends Controller implements HasMiddleware
 {
-    public function index(Request $request)
-{
-    $user = $request->user();
+    // Semua method selain index & show hanya untuk admin
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('role:admin', except: ['index', 'show']),
+        ];
+    }
 
-    $skemas = $user->isAdmin()
-        ? Skema::all()
-        : Skema::where('id', $user->peserta?->skema_id)->get();
+    // Admin & user: lihat daftar skema
+    public function index()
+    {
+        $skemas = Skema::orderBy('nama_skema')->get();
 
-    return view('skema.index', compact('skemas'));
-}
+        return view('skema.index', compact('skemas'));
+    }
 
-public function show(Request $request, Skema $skema)
-{
-    $user = $request->user();
-
-    abort_if(! $user->isAdmin() && $skema->id != $user->peserta?->skema_id, 403);
-
-    return view('skema.show', compact('skema'));
-}
+    // Admin & user: lihat detail skema
+    public function show(Skema $skema)
+    {
+        return view('skema.show', compact('skema'));
+    }
 
     public function create()
     {
@@ -60,7 +63,7 @@ public function show(Request $request, Skema $skema)
     public function update(Request $request, Skema $skema)
     {
         $validated = $request->validate([
-            'kode_skema' => ['required', 'max:20','unique:skemas,kode_skema,' . $skema->id],
+            'kode_skema' => ['required', 'max:20', 'unique:skemas,kode_skema,' . $skema->id],
             'nama_skema' => ['required', 'max:150', 'regex:/^[a-zA-Z0-9\s\.\-\/]+$/'],
             'deskripsi'  => ['nullable', 'string', 'max:500'],
         ], [

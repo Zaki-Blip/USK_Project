@@ -27,26 +27,29 @@
         {{-- Sidebar --}}
         <aside class="bg-white border-end p-3" style="min-width: 220px;">
             <nav class="nav nav-pills flex-column gap-1">
+
                 <a href="{{ route('dashboard') }}"
                    class="nav-link {{ request()->routeIs('dashboard') ? 'active bg-success' : 'text-dark' }}">
-                    <i class="me-2"></i>Dashboard
+                    <i class="bi bi-speedometer2 me-2"></i>Dashboard
                 </a>
-                @if(auth()->user()->isAdmin())
-    <a href="{{ route('peserta.index') }}"
-       class="nav-link {{ request()->routeIs('peserta.*') ? 'active bg-success' : 'text-dark' }}">
-        <i class="bi bi-people-fill me-2"></i>Peserta
-        </a>
-        @elseif(auth()->user()->peserta)
-            <a href="{{ route('peserta.show', auth()->user()->peserta) }}"
-            class="nav-link {{ request()->routeIs('peserta.*') ? 'active bg-success' : 'text-dark' }}">
-                <i class="bi bi-person-circle me-2"></i>Data Saya
-            </a>
-        @endif
 
-        <a href="{{ route('skema.index') }}"
-        class="nav-link {{ request()->routeIs('skema.*') ? 'active bg-success' : 'text-dark' }}">
-            <i class="bi bi-journal-text me-2"></i>Skema
-    </a>
+                @if(auth()->user()->isAdmin())
+                    <a href="{{ route('peserta.index') }}"
+                       class="nav-link {{ request()->routeIs('peserta.*') ? 'active bg-success' : 'text-dark' }}">
+                        <i class="bi bi-people-fill me-2"></i>Peserta
+                    </a>
+
+                    <a href="{{ route('skema.index') }}"
+                       class="nav-link {{ request()->routeIs('skema.*') ? 'active bg-success' : 'text-dark' }}">
+                        <i class="bi bi-journal-text me-2"></i>Skema
+                    </a>
+                @elseif(auth()->user()->peserta)
+                    <a href="{{ route('peserta.show', auth()->user()->peserta) }}"
+                       class="nav-link {{ request()->routeIs('peserta.*') ? 'active bg-success' : 'text-dark' }}">
+                        <i class="bi bi-person-circle me-2"></i>Edit Daya Saya
+                    </a>
+                @endif
+
             </nav>
         </aside>
 
