@@ -1,0 +1,44 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PesertaController;
+use App\Http\Controllers\SkemaController;
+
+// Halaman Awal (publik)
+Route::view('/', 'halamanAwal')->name('halamanAwal');
+
+// Area Guest (belum login)
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
+
+    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+    Route::post('/register', [AuthController::class, 'register']);
+});
+
+// Area Terproteksi (sudah login)
+Route::middleware('auth')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Khusus admin: tambah & hapus peserta, CRUD skema (kecuali lihat)
+    // Harus di atas supaya /peserta/create tidak ketangkap peserta/{peserta}
+    Route::middleware('role:admin')->group(function () {
+        Route::resource('peserta', PesertaController::class)
+            ->parameters(['peserta' => 'peserta'])
+            ->only(['create', 'store', 'destroy']);
+
+        Route::resource('skema', SkemaController::class)
+            ->except(['index', 'show']);
+    });
+
+    // Admin & user (pembatasan data dilakukan di controller)
+    Route::resource('peserta', PesertaController::class)
+        ->parameters(['peserta' => 'peserta'])
+        ->only(['index', 'show', 'edit', 'update']);
+
+    Route::resource('skema', SkemaController::class)
+        ->only(['index', 'show']);
+});

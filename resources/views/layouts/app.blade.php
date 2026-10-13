@@ -31,17 +31,22 @@
                    class="nav-link {{ request()->routeIs('dashboard') ? 'active bg-success' : 'text-dark' }}">
                     <i class="me-2"></i>Dashboard
                 </a>
-
                 @if(auth()->user()->isAdmin())
-                    <a href="{{ route('peserta.index') }}"
-                       class="nav-link {{ request()->routeIs('peserta.*') ? 'active bg-success' : 'text-dark' }}">
-                        <i class="me-2"></i>Peserta
-                    </a>
-                    <a href="{{ route('skema.index') }}"
-                       class="nav-link {{ request()->routeIs('skema.*') ? 'active bg-success' : 'text-dark' }}">
-                        <i class="me-2"></i>Skema
-                    </a>
-                @endif
+    <a href="{{ route('peserta.index') }}"
+       class="nav-link {{ request()->routeIs('peserta.*') ? 'active bg-success' : 'text-dark' }}">
+        <i class="bi bi-people-fill me-2"></i>Peserta
+        </a>
+        @elseif(auth()->user()->peserta)
+            <a href="{{ route('peserta.show', auth()->user()->peserta) }}"
+            class="nav-link {{ request()->routeIs('peserta.*') ? 'active bg-success' : 'text-dark' }}">
+                <i class="bi bi-person-circle me-2"></i>Data Saya
+            </a>
+        @endif
+
+        <a href="{{ route('skema.index') }}"
+        class="nav-link {{ request()->routeIs('skema.*') ? 'active bg-success' : 'text-dark' }}">
+            <i class="bi bi-journal-text me-2"></i>Skema
+    </a>
             </nav>
         </aside>
 
